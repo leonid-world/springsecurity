@@ -28,25 +28,15 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 
         http
-            .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-            .formLogin(form -> form
-                    //.loginPage("/loginPage")
-                    .loginProcessingUrl("/loginProc")
-                    .defaultSuccessUrl("/", true)
-                    .failureUrl("/failed")
-                    .usernameParameter("userId")
-                    .passwordParameter("passwd")
-                    .successHandler((request,response,authentication) -> {
-                        //defaultSuccessUrl 보다 더 우선순위가 높음. Success Url 을 더 세심하게 설정하고 싶으면 여기서 설정
-                            System.out.println("authentication : " + authentication);
-                            response.sendRedirect("/home");
-                    })
-                    .failureHandler((request,response, exception) -> {
-                        System.out.println("exception: " + exception.getMessage());
-                        response.sendRedirect("/login");
-                    })
-                    .permitAll()
-            );
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/anonymous").hasRole("GUEST")
+                    .requestMatchers("/anonymousContext", "/authentication").permitAll()
+                    .anyRequest().authenticated())
+                .formLogin(Customizer.withDefaults())
+                .anonymous(anonymous -> anonymous
+                        .principal("guest")
+                        .authorities("ROLE_GUEST")
+                );
 
         return http.build();
     }
