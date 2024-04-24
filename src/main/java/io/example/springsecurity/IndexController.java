@@ -11,9 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class IndexController {
 
     @GetMapping("/")
-    public String index() {
+    public String index(String customParam) {
 
-        return "index";
+        if(customParam != null){
+            return "customPage";
+        } else {
+            return "index";
+        }
+
     }
 
     @GetMapping("/loginPage")
