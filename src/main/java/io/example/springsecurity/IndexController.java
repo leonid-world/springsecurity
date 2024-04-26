@@ -9,11 +9,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URL;
+
 @RestController
 public class IndexController {
-
-    @Autowired
-    private SecurityContextService securityContextService;
 
     @GetMapping("/")
     public String index() {
@@ -22,8 +21,6 @@ public class IndexController {
         Authentication authentication = securityContext.getAuthentication();
 
         System.out.println("authentication: " + authentication);
-
-        securityContextService.securityContext();
 
         return "index";
     }
