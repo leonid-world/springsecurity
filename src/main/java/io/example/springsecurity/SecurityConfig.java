@@ -29,48 +29,24 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 
         /**
-         * ** AuthenticationManager
+         * ** AuthenticationProvider : AuthenticationManager 로부터 인증을 위임받는 객체
+         * 사용자의 자격 증명을 확인하고 인증 과정을 관리하는 클래스로서 사용자가 시스템에 액세스하기 위해 제공한 정보(예: 아이디 비밀번호) 가 유효한지 검증하는 과정이다.
+         * 다양한 유형의 인증 메커니즘을 지원할 수 있는데, 예를 들어 표준 사용자 이름과 비밀번호를 기반으로 한 인증, 토큰기반인증, 지문인식 등을 처리할 수 있다.
+         *    그래서, 인증과정은 이 클래스를 통해 구현한다.
+         * 성공적인 인증 후 Authentication 객체를 반환하며 이 객체에는 사용자의 신원 정보와 인증된 자격 증명을 포함한다.
+         * 인증 과정 중에 문제가 발생한 경우 AuthenticationException 과 같은 예외를 발생시켜 문제를 알리는 역할을 한다.
          *
-         * 인증 필터로부터 Authentication 객체를 전달 받아 인증을 시도하며 인증에 성공할 경우 사용자 정보, 권한 등을 포함한 완전히 채워진 Authentication 객체를 반환한다.
-         *  ex) AuthenticationFilter -> Authentication 객체 생성(Username, Password 저장) -> AuthenticationManager에게 인증객체 전달 및 인증처리 위임
-         *  -> AuthenticationManager는 내부적으로 인증처리 수행 -> 인증성공? -> Authentication 객체 데이터 보강하여 다시 생성(User객체나 Authority 등 추가됨)
-         *  -> AuthenticationFilter로 다시 반환.
-         *  이 역할을 AuthenticationManager가 한다.
-         *   즉, 인증받기 전 후 과정에서 다리역할을 하는 것
+         * AuthenticationProvider 도 interface 이다.
+         *  - authenticate(Authentication) : AuthenticationManager로붵 Authentication 객체를 전달 받아 인증을 수행한다.
+         *  - supports(Class<?>) : 인증을 수행할 수 있는 조건인지 검사한다. true 가 되어야 현재 provider가 인증을 수행하게 된다.
          *
-         * AuthenticationManager 는 여러 authenticationProvider 들을 관리하며 AuthenticationProvider 목록을 순차적으로 순회하며 인증 요청을 처리한다.
-         * ex ) AuthenticationProvider 클래스들을 가지고 있다.
-         * -> 목록 중에서 인증처리요건에 맞는 적절한 Provider를 찾아서 위임한다.
-         *
-         * AuthenticationProvider 목록 중에서 인증 처리 요건에 맞는 적절한 AuthenticationProvider를 찾아 인증처리를 위임한다.
-         * 즉, 인증처리 전 인증객체를 받아서 Provider에 위임하면, 인증성공 후 Authentication 객체를 받아서 Filter에 넘겨준다.
-         *
-         * AuthenticationManagerBuilder에 의해 객체가 생성되며 주로 사용하는 구현체로 ProviderManager가 제공된다.
-         * -> builder 클래스는 AuthenticationManager를 생성하는데, ProviderManager라는 구현체를 사용한다.
-         * 즉, ProviderManager는 Provider를 관리하는 객체이다.
-         *
-         *
-         * ** AuthenticationmanagerBuilder
-         *
-         * AuthenticationManager 객체를 생성하며 UserDetailsService 및 AuthenticationProvider 를 추가할 수 잇다.
-         *  -> Builder 클래스를 통해, UserDetailsService 및 AuthenticationProvider를 추가한다.
-         *  AuthenticationManager로 직접 Provider를 추가하거나 생성하는것은 아니다. 오직 빌더로만 한다.
-         *  Provider를 생성하여, AuthenticationManager로 전달하는 것이다.
-         *
-         * - 어떻게 참조하는가?
-         * HttpSecurity.getSharedObject(AuthenticationManagerBuilder.class) 를 통해 객체를 참조할 수 있다.
-         *    !! 참고 : HttpSecurity 는 어떤 자원을 공유할 수 있고 참조할 수 있다.
-         *    getSharedObject 에 공유하고자 하는 클래스타입을 주입하면 된다.
-         *
-         */
-
-
-        /**
-         * AuthenticationManager 사용법 - HttpSecurity 사용
-         *
-         * AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-         * AuthenticationManager authenticationManager = authenticationManagerbuilder.build();
-         * AuthenticationManager authenticationManager = authenticationManagerBuilder.getObject(); // build()는 최초 한번만 호출해야 한다. build() 후에는 getObject() 로 참조해야 한다.
+         * AuthenticationProvider 흐름
+         *  1. AuthenticationManager 로부터 Authentication(username, password) 를 전달받음
+         *  2. AuthenticationProvider 의 authentication() 으로 인증을 수행
+         *   -> 사용자 유무 검증, 비밀번호 검증, 보안 강화 처리 등을 실행한다.
+         *    즉 이 메서드로 사용자에 대한 모든 검증을 마치고 인증성공여부를 가린다.
+         *  3. 성공시 : Authentication 에 UserDetails + Authorities 를 담아 반환한다.
+         *     실패시 : AuthenticationException 예외를 발생시킨다.
          */
 
         http
