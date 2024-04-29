@@ -49,6 +49,12 @@ public class SecurityConfig {
          *     실패시 : AuthenticationException 예외를 발생시킨다.
          */
 
+        AuthenticationManagerBuilder builder = http.getSharedObject(AuthenticationManagerBuilder.class);
+
+        builder.authenticationProvider(new CustomAuthenticationProvider());
+        builder.authenticationProvider(new CustomAuthenticationProvider2());
+
+
         http
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/logoutSuccess").permitAll()
