@@ -1,5 +1,6 @@
 package io.example.springsecurity;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,7 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URL;
 
 @RestController
+@RequiredArgsConstructor
 public class IndexController {
+
+    private final SessionInfoService sessionInfoService;
 
     @GetMapping("/")
     public String index() {
@@ -23,6 +27,12 @@ public class IndexController {
         System.out.println("authentication: " + authentication);
 
         return "index";
+    }
+
+    @GetMapping("/sessionInfo")
+    public String sessionInfo() {
+        sessionInfoService.sessionInfo();
+        return "sessionInfo";
     }
 
     @GetMapping("/loginPage")

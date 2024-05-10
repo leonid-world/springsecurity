@@ -9,6 +9,9 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,40 +22,42 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
-    /**
-     * - SecurityContextHolderFilter
-     * - SecurityContextRepository
-     * 필터가 컨텍스트 객체를 읽어와서 홀더에 설정하는 목적
-     * 케이스는 3가지
-     * 1. 인증받지 못한상태(익명 사용자)
-     * 2. 인증 요청 시점
-     * 3. 인증 끝낸 후 후속요청
-     *  이 케이스에 대해 필터가 어떤식으로 컨텍스트 객체를 얻은 후 홀더에 설정하는지
-     *  초기화과정에서 위 클래스들이 어떻게 생성되고 필터와 어떠한 연관관계를 갖는가?
-     */
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+
+        /**
+         * 세션 고정 보호 전략
+         * 세션 고정 공격은 악의적인 공격자가 사이트에 접근하여 세션을 생성한 다음 다른 사용자가 같은 세션으로 로그인하도록 유도하는 것.
+         * 스프링 시큐리티는 사용자가 로그인할 때 새로운 세션을 생성하거나 세션 ID를 변경함으로써 이러한 공격에 자동으로 대응한다.
+         */
 
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login").permitAll()
                         .anyRequest().authenticated())
-                //.formLogin(Customizer.withDefaults())
-                //.csrf(csrf -> csrf.disable())
-                .csrf(AbstractHttpConfigurer::disable);
+                .formLogin(Customizer.withDefaults())
+                .sessionManagement(session -> session //세션갯수 관리는 명시적으로 반드시 선언해야 함.
+                        .maximumSessions(2) //최대 동시접속 세션 갯수
+                        .maxSessionsPreventsLogin(false) //false -> 후속 로그인한자가 세션 획득, 전 로그인자는 자동 로그아웃 // true -> 후속 로그인자는 계속 로그인 안됨
+                )
+                .sessionManagement(session -> session //세션 고정 보호 정책 수립
+                        .sessionFixation(sessionFixation -> sessionFixation.changeSessionId())
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                );
+
         return http.build();
     }
 
+    /**
+     * 세션 모니터링할 수 있는 방법
+     */
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
+    public SessionRegistry sessionRegistry(){
+        return new SessionRegistryImpl();
     }
 
-    /**
-     * @return
-     * CustomService 사용하기
-     */
     @Bean
     public UserDetailsService userDetailsService(){
 
