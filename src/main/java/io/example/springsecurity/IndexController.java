@@ -40,6 +40,16 @@ public class IndexController {
         return "loginPage";
     }
 
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping("/denied")
+    public String denied() {
+        return "denied";
+    }
+
     @GetMapping("/home")
     public String home() {
         return "home";
