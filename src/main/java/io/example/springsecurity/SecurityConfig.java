@@ -49,6 +49,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login").permitAll()
+                        .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults())
                 .exceptionHandling(exception -> exception
@@ -69,14 +70,6 @@ public class SecurityConfig {
                 );
 
         return http.build();
-    }
-
-    /**
-     * 세션 모니터링할 수 있는 방법
-     */
-    @Bean
-    public SessionRegistry sessionRegistry(){
-        return new SessionRegistryImpl();
     }
 
     @Bean

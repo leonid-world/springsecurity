@@ -40,16 +40,6 @@ public class IndexController {
         return "loginPage";
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    @GetMapping("/denied")
-    public String denied() {
-        return "denied";
-    }
-
     @GetMapping("/home")
     public String home() {
         return "home";
@@ -79,5 +69,21 @@ public class IndexController {
     @GetMapping("/logoutSuccess")
     public String logoutSuccess(){
         return "logoutSuccess";
+    }
+
+    @GetMapping("/invalidSessionUrl")
+    public String invalidSessionUrl(){ return "invalidSessionUrl"; }
+
+    @GetMapping("/expiredUrl")
+    public String expiredUrl(){ return "expiredUrl"; }
+
+    @GetMapping("/login")
+    public String login() {
+        return "loginPage";
+    }
+
+    @GetMapping("/denied")
+    public String denied() {
+        return "denied";
     }
 }
