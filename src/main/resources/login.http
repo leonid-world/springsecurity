@@ -7,7 +7,6 @@ Content-Type: application/json
   "password": "1111"
 }
 
-
 ### Send POST request with json body
 GET http://localhost:8080
 Accept: application/json

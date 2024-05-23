@@ -1,0 +1,259 @@
+## 고객 정보 조회 v1
+### Send POST request with json body
+POST http://106.103.232.131:80/user/reqCustInfo
+Content-Type: application/x-www-form-urlencoded
+
+appUserId = 206C6985A76C870914146541341531 &
+appUserPartIdx = 0
+
+
+### 고객 정보 조회 v2
+### Send POST request
+POST http://106.103.232.131:80/user/reqCustInfo/v2
+Content-Type: application/json
+
+{
+  "appUserId" : "206C6985A76C870914146541341531",
+  "appUserPartIdx" : "0"
+}
+
+
+### FAIL
+### SMS 본인인증 요청(xPay) - DI 요청용
+### Send Post request
+POST http://106.103.232.131:80/user/reqDiAuthSMS
+Content-Type: application/x-www-form-urlencoded
+
+userNm = 양규열 &
+ctn = 010043773089 &
+birthDate = 19870616 &
+gender = 2 &
+nativeYn = Y
+
+### FAIL
+### SMS 본인인증 요청(xPay) - DI 요청용 v2
+### Send Post request
+POST http://106.103.232.131:80/user/reqDiAuthSMS/v2
+Content-Type: application/json
+
+{
+  "userNm" : "양규열",
+  "ctn" : "010043773089",
+  "birthDate": "19870616",
+  "gender": "2",
+  "nativeYn": "Y"
+}
+
+### 휴먼 복귀 요청
+### Send Post request
+POST http://106.103.232.131:80/user/reqDormantRestore
+Content-Type: application/x-www-form-urlencoded
+
+appUserId = 206C6985A76C870914146541341531 &
+appUserPartIdx = 0 &
+reqMode = A &
+domantRestoreList = 00
+
+### 휴먼 복귀 요청 v2
+### Send Post request
+POST http://106.103.232.131:80/user/reqDormantRestore/v2
+Content-Type: application/json
+
+{
+  "appUserId" : "206C6985A76C870914146541341531",
+  "appUserPartIdx" : "0" ,
+  "reqMode" : "A" ,
+  "domantRestoreList" : "00"
+}
+
+
+
+### 스마트인증 약관 동의
+### Send Post Request
+POST http://106.103.232.131:80/user/reqIosAuthTermsAgree
+Content-Type: application/x-www-form-urlencoded
+
+appUserId = 11B672D5FE579D5B88939788881212 &
+appUserPartIdx = 3 &
+termsAgreeYn = [
+{
+"seq" : "6",
+"version" :" 1.0",
+"type" : "SMART_TERMS",
+"agreeYn" : "Y"
+},
+{
+"seq":"7",
+"version":"1.0",
+"type":"SMART_SELECT_TERMS",
+"agreeYn":"Y"
+}
+]
+
+### 스마트인증 약관 동의
+### Send Post Request
+POST http://106.103.232.131:80/user/reqIosAuthTermsAgree/v2
+Content-Type: application/json
+
+{
+  "appUserId" : "11B672D5FE579D5B88939788881212" ,
+  "appUserPartIdx" : "3",
+  "termsAgreeYn" : [
+    {
+      "seq" : "6",
+      "version" :" 1.0",
+      "type" : "SMART_TERMS",
+      "agreeYn" : "Y"
+    },
+    {
+      "seq":"7",
+      "version":"1.0",
+      "type":"SMART_SELECT_TERMS",
+      "agreeYn":"Y"
+    }
+  ]
+}
+
+
+### 생명주기 업데이트 v1
+### Send Post request
+POST http://106.103.232.131:80/user/reqLifeCycle
+Content-Type: application/x-www-form-urlencoded
+
+appUserId = 2EE0FEF7D6F1E30D72328974492690 &
+appuserPartIdx = 5 &
+##lifeCycle = 5
+lifeCycle = 1
+
+
+### 생명주기 업데이트 v1
+### Send Post request
+POST http://106.103.232.131:80/user/reqLifeCycle/v2
+Content-Type: application/json
+
+{
+  "appUserId" : "1D8D4FAB80CD587521901310834455",
+  "appUserPartIdx" : "8",
+  "lifeCycle" : "5"
+}
+
+
+### FAIL
+### 본인확인 차단 on/off 요청 v1
+### Send Post Request
+POST http://106.103.232.131:80/user/reqMsgBlockYn
+Content-Type: application/x-www-form-urlencoded
+
+appUserId = 1YQZ6A4IOGMW4T50K8XHG235WGG2Z81D2O7I33LFS2 &
+appUserPartIdx = 7 &
+msgBlockYn = Y &
+ctn = 010027987367
+
+##appUserId = 32327AD70CA6A55617273507244778 &
+##appUserPartIdx = 7 &
+##msgBlockYn = Y &
+##ctn = 010084745837
+
+### FAIL
+### 본인확인 차단 on/off 요청 v2
+### Send Post Request
+POST http://106.103.232.131:80/user/reqMsgBlockYn/v2
+Content-Type: application/json
+
+{
+  "appUserId" : "1YQZ6A4IOGMW4T50K8XHG235WGG2Z81D2O7I33LFS2",
+  "appUserPartIdx" : "7",
+  "msgBlockYn" : "Y",
+  "ctn" : "010027987367"
+}
+
+
+### FAIL
+### 로그인 완료 알림 요청 v1
+### Send Post Request
+POST http://106.103.232.131:80/user/reqNotiLogin
+Content-Type: application/x-www-form-urlencoded
+
+appUserId = 142FED8CA662F89057733031095388 &
+appUserPartIdx = 9
+
+### FAIL
+### 로그인 완료 알림 요청 v2
+### Send Post Request
+POST http://106.103.232.131:80/user/reqNotiLogin/v2
+Content-Type: application/json
+
+{
+  "appUserId" : "142FED8CA662F89057733031095388",
+  "appUserPartIdx" : "9"
+}
+
+
+### FAIL
+### 약관 동의 v1
+### Send Post Request
+POST http://106.103.232.131:80/user/reqTermsAgree
+Content-Type: application/x-www-form-urlencoded
+
+appUserId = 142FED8CA662F89057733031095388 &
+termsAgreeYn = N &
+appuserPartIdx = 9
+
+
+### FAIL
+### 약관 동의 v2
+### Send Post Request
+POST http://106.103.232.131:80/user/reqTermsAgree/v2
+Content-Type: application/json
+
+{
+  "appUserId" : "255469B9CE072F8103597631422472",
+  "termsAgreeYn" : "N",
+  "appuserPartIdx" : "0"
+}
+
+
+### FAIL
+### 부분약관 동의
+### Send Post Request
+POST http://106.103.232.131:80/user/reqTermsPartAgree/v2
+Content-Type: application/json
+
+{
+  "appUserId": "255469B9CE072F8103597631422472",
+  "termsAgreeYn" : "N",
+  "appUserPartIdx" : "0"
+}
+
+
+### FAIL
+### 탈퇴 요청
+### Send Post Request
+POST http://106.103.232.131:80/user/reqWithdraw
+Content-Type: application/x-www-form-urlencoded
+
+appUserId = 142FED8CA662F89057733031095388 &
+appUserPartIdx = 9
+
+
+### FAIL
+### 탈퇴 요청 v2
+### Send Post Request
+POST http://106.103.232.131:80/user/reqWithdraw/v2
+Content-Type: application/json
+
+{
+  "appUserId" : "142FED8CA662F89057733031095388" ,
+  "appUserPartIdx" : "9"
+}
+
+
+
+### 사용자 정보 초기화 v1
+### Send Post Request
+POST http://106.103.232.131:80/user/resetUserInfo
+Content-Type: application/x-www-form-urlencoded
+
+appUserId = ATONTESTEBB0000000000000000040 &
+deviceId = DEVID200000040 &
+appUserPartIdx = 0
