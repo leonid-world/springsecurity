@@ -197,7 +197,7 @@ Content-Type: application/x-www-form-urlencoded
 
 appUserId = 142FED8CA662F89057733031095388 &
 termsAgreeYn = N &
-appuserPartIdx = 9
+appUserPartIdx = 9
 
 
 ### FAIL
@@ -209,7 +209,7 @@ Content-Type: application/json
 {
   "appUserId" : "255469B9CE072F8103597631422472",
   "termsAgreeYn" : "N",
-  "appuserPartIdx" : "0"
+  "appUserPartIdx" : "0"
 }
 
 
