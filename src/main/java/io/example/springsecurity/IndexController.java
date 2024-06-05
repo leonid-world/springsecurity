@@ -31,7 +31,7 @@ public class IndexController {
 
     @GetMapping("/sessionInfo")
     public String sessionInfo() {
-        sessionInfoService.sessionInfo();
+        //sessionInfoService.sessionInfo();
         return "sessionInfo";
     }
 

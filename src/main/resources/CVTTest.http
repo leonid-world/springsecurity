@@ -63,7 +63,7 @@ Content-Type: application/json
   "appUserId" : "206C6985A76C870914146541341531",
   "appUserPartIdx" : "0" ,
   "reqMode" : "A" ,
-  "domantRestoreList" : "00"
+  "dormantRestoreList" : "00"
 }
 
 
